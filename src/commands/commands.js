@@ -55,11 +55,12 @@ function generateAIReply(event) {
                 );
 
                 const aiReply =
-`Hello,
+`
+Hello,
 
-Thank you for your email.
+Thank you for your email regarding the POC status.
 
-We are reviewing your request and will get back to you shortly.
+We are currently reviewing the request and will provide an update shortly.
 
 Regards,
 Support Team
@@ -67,7 +68,8 @@ Support Team
 -----------------------------------
 AI Generated Draft Response
 Please review before sending.
------------------------------------`;
+-----------------------------------
+`;
 
                 try {
 
