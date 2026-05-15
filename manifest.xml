@@ -11,7 +11,7 @@
 
     <Version>1.0.0.0</Version>
 
-    <ProviderName>WebSvc</ProviderName>
+    <ProviderName>Narender K</ProviderName>
 
     <DefaultLocale>en-US</DefaultLocale>
 
@@ -23,7 +23,7 @@
 
     <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-128.png"/>
 
-    <SupportUrl DefaultValue="https://websvc.in"/>
+    <SupportUrl DefaultValue="https://nihilent.com"/>
 
     <AppDomains>
         <AppDomain>https://localhost:3000</AppDomain>
