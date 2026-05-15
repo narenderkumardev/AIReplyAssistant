@@ -16,6 +16,17 @@ function generateAIReply(event) {
         const item =
             Office.context.mailbox.item;
 
+        if (!item) {
+
+            console.error(
+                "No mailbox item found."
+            );
+
+            event.completed();
+
+            return;
+        }
+
         item.body.getAsync(
             Office.CoercionType.Text,
 
@@ -36,7 +47,7 @@ function generateAIReply(event) {
                 }
 
                 const emailBody =
-                    result.value;
+                    result.value || "";
 
                 console.log(
                     "Original Email:",
@@ -44,8 +55,7 @@ function generateAIReply(event) {
                 );
 
                 const aiReply =
-`
-Hello,
+`Hello,
 
 Thank you for your email.
 
@@ -54,17 +64,29 @@ We are reviewing your request and will get back to you shortly.
 Regards,
 Support Team
 
-—
-Generated with AI assistance.
-`;
+-----------------------------------
+AI Generated Draft Response
+Please review before sending.
+-----------------------------------`;
 
-                item.displayReplyForm(
+                try {
 
-                    aiReply.replace(
-                        /\n/g,
-                        "<br>"
-                    )
-                );
+                    item.displayReplyForm(
+                        aiReply
+                    );
+
+                    console.log(
+                        "Reply form opened successfully."
+                    );
+
+                }
+                catch (replyError) {
+
+                    console.error(
+                        "displayReplyForm error:",
+                        replyError
+                    );
+                }
 
                 event.completed();
             }
