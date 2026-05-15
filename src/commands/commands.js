@@ -9,7 +9,7 @@ Office.onReady(() => {
 
 });
 
-async function generateAIReply(event) {
+function generateAIReply(event) {
 
     try {
 
@@ -38,6 +38,11 @@ async function generateAIReply(event) {
                 const emailBody =
                     result.value;
 
+                console.log(
+                    "Original Email:",
+                    emailBody
+                );
+
                 const aiReply =
 `
 Hello,
@@ -53,14 +58,13 @@ Support Team
 Generated with AI assistance.
 `;
 
-                item.displayReplyForm({
+                item.displayReplyForm(
 
-                    htmlBody:
-                        aiReply.replace(
-                            /\n/g,
-                            "<br>"
-                        )
-                });
+                    aiReply.replace(
+                        /\n/g,
+                        "<br>"
+                    )
+                );
 
                 event.completed();
             }
