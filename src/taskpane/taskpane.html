@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta http-equiv="X-UA-Compatible"
+        content="IE=Edge" />
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        AI Reply Settings
+    </title>
+
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js">
+    </script>
+
+    <link href="./taskpane.css"
+        rel="stylesheet" />
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="hero">
+
+        <h1>
+            AI Assistant
+        </h1>
+
+        <p>
+            Configure AI replies and Auto Pilot automation.
+        </p>
+
+    </div>
+
+    <!-- AI Reply Settings -->
+
+    <div class="card">
+
+        <div class="section-title">
+
+            AI Reply Settings
+
+        </div>
+
+        <label>
+            Tone
+        </label>
+
+        <select id="tone">
+
+            <option>
+                Professional
+            </option>
+
+            <option>
+                Friendly
+            </option>
+
+            <option>
+                Formal
+            </option>
+
+            <option>
+                Supportive
+            </option>
+
+        </select>
+
+        <label>
+            Confidence Threshold
+        </label>
+
+        <input type="range"
+            id="confidenceSlider"
+            min="50"
+            max="100"
+            value="80" />
+
+        <div id="confidenceValue">
+
+            80%
+
+        </div>
+
+        <label>
+            Knowledge Sources
+        </label>
+
+        <div class="checkbox-row">
+
+            <input type="checkbox"
+                checked
+                id="mailHistory" />
+
+            <span>
+                Team Mail History
+            </span>
+
+        </div>
+
+        <div class="checkbox-row">
+
+            <input type="checkbox"
+                checked
+                id="sharepoint" />
+
+            <span>
+                SharePoint Documents
+            </span>
+
+        </div>
+
+        <div class="checkbox-row">
+
+            <input type="checkbox"
+                checked
+                id="faqDb" />
+
+            <span>
+                FAQ Knowledge Base
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- Auto Pilot -->
+
+    <div class="card">
+
+        <div class="section-title">
+
+            Auto Pilot
+
+        </div>
+
+        <div class="toggle-container">
+
+            <span>
+                Enable Auto Pilot
+            </span>
+
+            <label class="switch">
+
+                <input type="checkbox"
+                    id="autoPilotToggle" />
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+        <div id="autoPilotSettings"
+            class="hidden">
+
+            <label>
+                End Date
+            </label>
+
+            <input type="date"
+                id="endDate" />
+
+            <div class="checkbox-row">
+
+                <input type="checkbox"
+                    checked
+                    id="businessHours" />
+
+                <span>
+                    Business Hours Only
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Insights -->
+
+    <div class="card">
+
+        <div class="section-title">
+
+            Insights
+
+        </div>
+
+        <div class="insights-grid">
+
+            <div class="insight-card">
+
+                <div class="insight-value">
+
+                    42
+
+                </div>
+
+                <div class="insight-label">
+
+                    Processed Today
+
+                </div>
+
+            </div>
+
+            <div class="insight-card">
+
+                <div class="insight-value">
+
+                    5
+
+                </div>
+
+                <div class="insight-label">
+
+                    Pending Review
+
+                </div>
+
+            </div>
+
+            <div class="insight-card">
+
+                <div class="insight-value">
+
+                    37
+
+                </div>
+
+                <div class="insight-label">
+
+                    Auto Replies
+
+                </div>
+
+            </div>
+
+            <div class="insight-card">
+
+                <div class="insight-value">
+
+                    2m
+
+                </div>
+
+                <div class="insight-label">
+
+                    Avg Response
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <button id="saveBtn">
+
+        Save Settings
+
+    </button>
+
+    <div id="statusBox">
+
+        Ready
+
+    </div>
+
+</div>
+
+<script src="./taskpane.js"></script>
+
+</body>
+
+</html>
