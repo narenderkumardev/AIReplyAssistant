@@ -19,12 +19,16 @@ async function generateAIReply(event) {
         item.body.getAsync(
             Office.CoercionType.Text,
 
-            async function(result) {
+            function(result) {
 
                 if (
                     result.status !==
                     Office.AsyncResultStatus.Succeeded
                 ) {
+
+                    console.error(
+                        "Failed to read email body."
+                    );
 
                     event.completed();
 
@@ -35,7 +39,8 @@ async function generateAIReply(event) {
                     result.value;
 
                 const aiReply =
-`Hello,
+`
+Hello,
 
 Thank you for your email.
 
@@ -48,15 +53,14 @@ Support Team
 Generated with AI assistance.
 `;
 
-                Office.context.mailbox
-                    .displayReplyForm({
+                item.displayReplyForm({
 
-                        htmlBody:
-                            aiReply.replace(
-                                /\n/g,
-                                "<br>"
-                            )
-                    });
+                    htmlBody:
+                        aiReply.replace(
+                            /\n/g,
+                            "<br>"
+                        )
+                });
 
                 event.completed();
             }
@@ -65,7 +69,10 @@ Generated with AI assistance.
     }
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "AI Reply Error:",
+            error
+        );
 
         event.completed();
     }
