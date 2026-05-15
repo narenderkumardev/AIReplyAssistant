@@ -47,7 +47,7 @@
 
             <DesktopSettings>
 
-                <SourceLocation DefaultValue="https://ai-reply-assistant-tau.vercel.app/taskpane.html"/>
+                <SourceLocation DefaultValue="https://ai-reply-assistant-tau.vercel.app/src/taskpane/taskpane.html"/>
 
                 <RequestedHeight>250</RequestedHeight>
 
@@ -272,7 +272,7 @@
                     DefaultValue="https://ai-reply-assistant-tau.vercel.app/commands.html"/>
 
                 <bt:Url id="Taskpane.Url"
-                    DefaultValue="https://ai-reply-assistant-tau.vercel.app/taskpane.html"/>
+                    DefaultValue="https://ai-reply-assistant-tau.vercel.app/src/taskpane/taskpane.html"/>
 
             </bt:Urls>
 
