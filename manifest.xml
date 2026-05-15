@@ -97,149 +97,83 @@
 
                             <Group id="AIReplyGroup">
 
-                                <Label resid="GroupLabel"/>
+    <Label resid="GroupLabel"/>
 
-                                <!-- AI Reply Menu -->
+    <!-- AI Reply Button -->
 
-                                <Control xsi:type="Menu"
-                                    id="AIReplyMenu">
+    <Control xsi:type="Button"
+        id="AIReplyButton">
 
-                                    <Label resid="AIReply.Label"/>
+        <Label resid="AIReply.Label"/>
 
-                                    <Supertip>
+        <Supertip>
 
-                                        <Title resid="AIReply.Label"/>
+            <Title resid="AIReply.Label"/>
 
-                                        <Description resid="AIReply.Tooltip"/>
+            <Description resid="AIReply.Tooltip"/>
 
-                                    </Supertip>
+        </Supertip>
 
-                                    <Icon>
+        <Icon>
 
-                                        <bt:Image size="16"
-                                            resid="Icon.16x16"/>
+            <bt:Image size="16"
+                resid="Icon.16x16"/>
 
-                                        <bt:Image size="32"
-                                            resid="Icon.32x32"/>
+            <bt:Image size="32"
+                resid="Icon.32x32"/>
 
-                                        <bt:Image size="80"
-                                            resid="Icon.80x80"/>
+            <bt:Image size="80"
+                resid="Icon.80x80"/>
 
-                                    </Icon>
+        </Icon>
 
-                                    <Items>
+        <Action xsi:type="ExecuteFunction">
 
-                                        <!-- Generate AI Reply -->
+            <FunctionName>
+                generateAIReply
+            </FunctionName>
 
-                                        <Item id="GenerateReplyItem">
+        </Action>
 
-                                            <Label resid="GenerateReply.Label"/>
+    </Control>
 
-                                            <Supertip>
+    <!-- Auto Pilot -->
 
-                                                <Title resid="GenerateReply.Label"/>
+    <Control xsi:type="Button"
+        id="AutoPilotButton">
 
-                                                <Description resid="GenerateReply.Tooltip"/>
+        <Label resid="AutoPilot.Label"/>
 
-                                            </Supertip>
+        <Supertip>
 
-                                            <Icon>
+            <Title resid="AutoPilot.Label"/>
 
-                                                <bt:Image size="16"
-                                                    resid="Icon.16x16"/>
+            <Description resid="AutoPilot.Tooltip"/>
 
-                                                <bt:Image size="32"
-                                                    resid="Icon.32x32"/>
+        </Supertip>
 
-                                                <bt:Image size="80"
-                                                    resid="Icon.80x80"/>
+        <Icon>
 
-                                            </Icon>
+            <bt:Image size="16"
+                resid="Icon.16x16"/>
 
-                                            <Action xsi:type="ExecuteFunction">
+            <bt:Image size="32"
+                resid="Icon.32x32"/>
 
-                                                <FunctionName>generateAIReply</FunctionName>
+            <bt:Image size="80"
+                resid="Icon.80x80"/>
 
-                                            </Action>
+        </Icon>
 
-                                        </Item>
+        <Action xsi:type="ShowTaskpane">
 
-                                        <!-- Settings -->
+            <SourceLocation resid="Taskpane.Url"/>
 
-                                        <Item id="SettingsItem">
+        </Action>
 
-                                            <Label resid="Settings.Label"/>
+    </Control>
 
-                                            <Supertip>
-
-                                                <Title resid="Settings.Label"/>
-
-                                                <Description resid="Settings.Tooltip"/>
-
-                                            </Supertip>
-
-                                            <Icon>
-
-                                                <bt:Image size="16"
-                                                    resid="Icon.16x16"/>
-
-                                                <bt:Image size="32"
-                                                    resid="Icon.32x32"/>
-
-                                                <bt:Image size="80"
-                                                    resid="Icon.80x80"/>
-
-                                            </Icon>
-
-                                            <Action xsi:type="ShowTaskpane">
-
-                                                <SourceLocation resid="Taskpane.Url"/>
-
-                                            </Action>
-
-                                        </Item>
-
-                                    </Items>
-
-                                </Control>
-
-                                <!-- Auto Pilot Button -->
-
-                                <Control xsi:type="Button"
-                                    id="AutoPilotButton">
-
-                                    <Label resid="AutoPilot.Label"/>
-
-                                    <Supertip>
-
-                                        <Title resid="AutoPilot.Label"/>
-
-                                        <Description resid="AutoPilot.Tooltip"/>
-
-                                    </Supertip>
-
-                                    <Icon>
-
-                                        <bt:Image size="16"
-                                            resid="Icon.16x16"/>
-
-                                        <bt:Image size="32"
-                                            resid="Icon.32x32"/>
-
-                                        <bt:Image size="80"
-                                            resid="Icon.80x80"/>
-
-                                    </Icon>
-
-                                    <Action xsi:type="ShowTaskpane">
-
-                                        <SourceLocation resid="Taskpane.Url"/>
-
-                                    </Action>
-
-                                </Control>
-
-                            </Group>
+</Group>
 
                         </OfficeTab>
 

@@ -54,13 +54,27 @@ function generateAIReply(event) {
                     emailBody
                 );
 
+                const settings =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "ai_reply_settings"
+                        ) || "{}"
+                    );
+
+                const tone =
+                    settings.tone ||
+                    "Professional";
+
                 const aiReply =
 `
 Hello,
 
-Thank you for your email regarding the POC status.
+Thank you for your email.
 
-We are currently reviewing the request and will provide an update shortly.
+We are reviewing your request and will get back to you shortly.
+
+Tone Selected:
+${tone}
 
 Regards,
 Support Team

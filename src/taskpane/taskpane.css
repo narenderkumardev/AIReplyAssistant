@@ -1,20 +1,31 @@
-body {
-
-    margin: 0;
-
-    padding: 0;
-
-    background: #f3f6fb;
-
-    font-family: Segoe UI, sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-.container {
+body{
 
-    padding: 18px;
+    font-family:
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        linear-gradient(
+            180deg,
+            #eef4ff 0%,
+            #f7f9fc 100%
+        );
+
+    color:#0f172a;
 }
 
-.hero {
+.container{
+
+    padding:22px;
+}
+
+.hero{
 
     background:
         linear-gradient(
@@ -23,192 +34,307 @@ body {
             #4f46e5
         );
 
-    color: white;
+    color:white;
 
-    padding: 24px;
+    padding:28px;
 
-    border-radius: 22px;
-}
-
-.card {
-
-    background: white;
-
-    margin-top: 18px;
-
-    padding: 18px;
-
-    border-radius: 20px;
+    border-radius:28px;
 
     box-shadow:
-        0 6px 20px rgba(0,0,0,0.06);
+        0 12px 40px rgba(37,99,235,0.22);
 }
 
-.section-title {
+.hero h1{
 
-    font-size: 18px;
+    font-size:30px;
 
-    font-weight: 700;
-
-    margin-bottom: 16px;
+    margin-bottom:10px;
 }
 
-label {
+.hero p{
 
-    display: block;
+    line-height:1.6;
 
-    margin-top: 16px;
+    opacity:0.95;
 
-    margin-bottom: 8px;
+    font-size:15px;
+}
 
-    font-weight: 600;
+.ribbon-preview{
+
+    margin-top:18px;
+
+    background:
+        rgba(255,255,255,0.12);
+
+    border:
+        1px solid rgba(255,255,255,0.18);
+
+    padding:14px;
+
+    border-radius:18px;
+
+    font-size:14px;
+
+    line-height:1.8;
+}
+
+.card{
+
+    background:white;
+
+    margin-top:22px;
+
+    padding:22px;
+
+    border-radius:24px;
+
+    box-shadow:
+        0 8px 28px rgba(15,23,42,0.06);
+}
+
+.section-title{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+}
+
+.section-desc{
+
+    color:#64748b;
+
+    line-height:1.6;
+
+    font-size:14px;
+
+    margin-bottom:18px;
+}
+
+label{
+
+    display:block;
+
+    margin-top:18px;
+
+    margin-bottom:10px;
+
+    font-size:14px;
+
+    font-weight:600;
 }
 
 select,
-input[type=date] {
+input[type=date]{
 
-    width: 100%;
+    width:100%;
 
-    padding: 12px;
+    padding:14px;
 
-    border-radius: 14px;
+    border-radius:16px;
 
-    border: 1px solid #ccc;
+    border:
+        1px solid #dbe4f0;
+
+    font-size:14px;
+
+    outline:none;
+
+    background:white;
 }
 
-.checkbox-row {
+.checkbox-row{
 
-    display: flex;
+    display:flex;
 
-    gap: 10px;
+    align-items:center;
 
-    margin-top: 14px;
+    gap:12px;
 
-    align-items: center;
+    margin-top:14px;
+
+    font-size:14px;
 }
 
-.switch {
+.checkbox-row input{
 
-    position: relative;
+    width:18px;
 
-    display: inline-block;
-
-    width: 50px;
-
-    height: 24px;
+    height:18px;
 }
 
-.switch input {
+.switch{
 
-    opacity: 0;
+    position:relative;
+
+    display:inline-block;
+
+    width:54px;
+
+    height:28px;
 }
 
-.slider {
+.switch input{
 
-    position: absolute;
-
-    top: 0;
-
-    left: 0;
-
-    right: 0;
-
-    bottom: 0;
-
-    background: #ccc;
-
-    border-radius: 24px;
+    opacity:0;
 }
 
-.slider:before {
+.slider{
 
-    content: "";
+    position:absolute;
 
-    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
 
-    width: 18px;
+    background:#d1d5db;
 
-    height: 18px;
+    border-radius:30px;
 
-    left: 3px;
-
-    bottom: 3px;
-
-    background: white;
-
-    border-radius: 50%;
-
-    transition: .3s;
+    transition:.3s;
 }
 
-input:checked + .slider {
+.slider:before{
 
-    background: #2563eb;
+    position:absolute;
+
+    content:"";
+
+    height:22px;
+
+    width:22px;
+
+    left:3px;
+
+    bottom:3px;
+
+    background:white;
+
+    border-radius:50%;
+
+    transition:.3s;
 }
 
-input:checked + .slider:before {
+input:checked + .slider{
 
-    transform: translateX(26px);
+    background:#2563eb;
 }
 
-.toggle-container {
+input:checked + .slider:before{
 
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
+    transform:translateX(26px);
 }
 
-.hidden {
+.toggle-container{
 
-    display: none;
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:10px;
 }
 
-.insights-grid {
+.hidden{
 
-    display: grid;
+    display:none;
+}
+
+.slider-container{
+
+    margin-top:18px;
+}
+
+.slider-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:10px;
+}
+
+#confidenceValue{
+
+    color:#2563eb;
+
+    font-weight:700;
+}
+
+input[type=range]{
+
+    width:100%;
+}
+
+.action-box{
+
+    background:#f8fafc;
+
+    border:
+        1px solid #e2e8f0;
+
+    border-radius:18px;
+
+    padding:16px;
+
+    margin-top:18px;
+}
+
+.insights-grid{
+
+    display:grid;
 
     grid-template-columns:
         repeat(2,1fr);
 
-    gap: 12px;
+    gap:14px;
 }
 
-.insight-card {
+.insight-card{
 
-    background: #f8fafc;
+    background:#f8fafc;
 
-    padding: 16px;
+    border:
+        1px solid #edf2f7;
 
-    border-radius: 16px;
+    padding:18px;
+
+    border-radius:20px;
 }
 
-.insight-value {
+.insight-value{
 
-    font-size: 26px;
+    font-size:30px;
 
-    font-weight: bold;
+    font-weight:700;
 }
 
-.insight-label {
+.insight-label{
 
-    color: #64748b;
+    margin-top:8px;
 
-    margin-top: 6px;
+    color:#64748b;
+
+    font-size:13px;
 }
 
-button {
+button{
 
-    width: 100%;
+    width:100%;
 
-    margin-top: 20px;
+    margin-top:24px;
 
-    padding: 14px;
+    padding:16px;
 
-    border: none;
+    border:none;
 
-    border-radius: 16px;
+    border-radius:18px;
 
     background:
         linear-gradient(
@@ -217,24 +343,43 @@ button {
             #4f46e5
         );
 
-    color: white;
+    color:white;
 
-    font-size: 15px;
+    font-size:15px;
 
-    font-weight: 600;
+    font-weight:700;
 
-    cursor: pointer;
+    cursor:pointer;
+
+    box-shadow:
+        0 10px 25px rgba(37,99,235,0.22);
 }
 
-#statusBox {
+#statusBox{
 
-    margin-top: 16px;
+    margin-top:18px;
 
-    background: #ecfdf3;
+    background:#ecfdf3;
 
-    color: #065f46;
+    color:#065f46;
 
-    border-radius: 14px;
+    border:
+        1px solid #bbf7d0;
 
-    padding: 14px;
+    border-radius:16px;
+
+    padding:14px;
+
+    font-size:14px;
+}
+
+.small-note{
+
+    margin-top:10px;
+
+    color:#64748b;
+
+    font-size:12px;
+
+    line-height:1.6;
 }

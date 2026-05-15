@@ -72,15 +72,25 @@ function saveSettings() {
                 "tone"
             ).value,
 
+        autoPilot:
+            document.getElementById(
+                "autoPilotToggle"
+            ).checked,
+
         confidence:
             document.getElementById(
                 "confidenceSlider"
             ).value,
 
-        autoPilot:
+        highConfidenceAction:
             document.getElementById(
-                "autoPilotToggle"
-            ).checked
+                "highConfidenceAction"
+            ).value,
+
+        lowConfidenceAction:
+            document.getElementById(
+                "lowConfidenceAction"
+            ).value
     };
 
     localStorage.setItem(
@@ -112,10 +122,14 @@ function loadSettings() {
         "Professional";
 
     document.getElementById(
+        "autoPilotToggle"
+    ).checked =
+        settings.autoPilot || false;
+
+    document.getElementById(
         "confidenceSlider"
     ).value =
-        settings.confidence ||
-        80;
+        settings.confidence || 80;
 
     document.getElementById(
         "confidenceValue"
@@ -124,9 +138,16 @@ function loadSettings() {
         + "%";
 
     document.getElementById(
-        "autoPilotToggle"
-    ).checked =
-        settings.autoPilot || false;
+        "highConfidenceAction"
+    ).value =
+        settings.highConfidenceAction ||
+        "Save Draft";
+
+    document.getElementById(
+        "lowConfidenceAction"
+    ).value =
+        settings.lowConfidenceAction ||
+        "Notify User";
 
     if (settings.autoPilot) {
 

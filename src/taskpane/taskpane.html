@@ -3,23 +3,23 @@
 
 <head>
 
-    <meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 
-    <meta http-equiv="X-UA-Compatible"
-        content="IE=Edge" />
+<meta http-equiv="X-UA-Compatible"
+      content="IE=Edge"/>
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0"/>
 
-    <title>
-        AI Reply Settings
-    </title>
+<title>
+AI Assistant
+</title>
 
-    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js">
-    </script>
+<script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js">
+</script>
 
-    <link href="./taskpane.css"
-        rel="stylesheet" />
+<link href="./taskpane.css"
+      rel="stylesheet"/>
 
 </head>
 
@@ -34,20 +34,36 @@
         </h1>
 
         <p>
-            Configure AI replies and Auto Pilot automation.
+            Smart Outlook email replies with optional Auto Pilot automation.
         </p>
+
+        <div class="ribbon-preview">
+
+            Reply |
+            Reply All |
+            Forward |
+            <strong>AI Reply</strong> |
+            <strong>Auto Pilot</strong>
+
+        </div>
 
     </div>
 
-    <!-- AI Reply Settings -->
+    <!-- AI SETTINGS -->
 
     <div class="card">
 
         <div class="section-title">
 
-            AI Reply Settings
+            AI Settings
 
         </div>
+
+        <p class="section-desc">
+
+            Shared settings used for both AI Reply and Auto Pilot.
+
+        </p>
 
         <label>
             Tone
@@ -74,30 +90,14 @@
         </select>
 
         <label>
-            Confidence Threshold
-        </label>
-
-        <input type="range"
-            id="confidenceSlider"
-            min="50"
-            max="100"
-            value="80" />
-
-        <div id="confidenceValue">
-
-            80%
-
-        </div>
-
-        <label>
             Knowledge Sources
         </label>
 
         <div class="checkbox-row">
 
             <input type="checkbox"
-                checked
-                id="mailHistory" />
+                   checked
+                   id="mailHistory"/>
 
             <span>
                 Team Mail History
@@ -108,8 +108,8 @@
         <div class="checkbox-row">
 
             <input type="checkbox"
-                checked
-                id="sharepoint" />
+                   checked
+                   id="sharepoint"/>
 
             <span>
                 SharePoint Documents
@@ -120,8 +120,8 @@
         <div class="checkbox-row">
 
             <input type="checkbox"
-                checked
-                id="faqDb" />
+                   checked
+                   id="faqDb"/>
 
             <span>
                 FAQ Knowledge Base
@@ -131,7 +131,7 @@
 
     </div>
 
-    <!-- Auto Pilot -->
+    <!-- AUTOPILOT -->
 
     <div class="card">
 
@@ -140,6 +140,12 @@
             Auto Pilot
 
         </div>
+
+        <p class="section-desc">
+
+            Automatically process incoming emails using AI automation.
+
+        </p>
 
         <div class="toggle-container">
 
@@ -150,7 +156,7 @@
             <label class="switch">
 
                 <input type="checkbox"
-                    id="autoPilotToggle" />
+                       id="autoPilotToggle"/>
 
                 <span class="slider"></span>
 
@@ -159,32 +165,84 @@
         </div>
 
         <div id="autoPilotSettings"
-            class="hidden">
+             class="hidden">
 
             <label>
-                End Date
+                Automation Confidence Level
+            </label>
+
+            <input type="range"
+                   id="confidenceSlider"
+                   min="50"
+                   max="100"
+                   value="80"/>
+
+            <div id="confidenceValue">
+
+                80%
+
+            </div>
+
+            <label>
+                Business Hours
+            </label>
+
+            <select id="businessHours">
+
+                <option>
+                    Business Hours Only
+                </option>
+
+                <option>
+                    24 x 7 Automation
+                </option>
+
+            </select>
+
+            <label>
+                Auto Pilot End Date
             </label>
 
             <input type="date"
-                id="endDate" />
+                   id="endDate"/>
 
-            <div class="checkbox-row">
+            <label>
+                High Confidence Action
+            </label>
 
-                <input type="checkbox"
-                    checked
-                    id="businessHours" />
+            <select id="highConfidenceAction">
 
-                <span>
-                    Business Hours Only
-                </span>
+                <option>
+                    Save Draft
+                </option>
 
-            </div>
+                <option>
+                    Auto Send
+                </option>
+
+            </select>
+
+            <label>
+                Low Confidence Action
+            </label>
+
+            <select id="lowConfidenceAction">
+
+                <option>
+                    Notify User
+                </option>
+
+                <option>
+                    Save Draft
+                </option>
+
+            </select>
 
         </div>
 
     </div>
 
-    <!-- Insights -->
+    <!-- INSIGHTS -->
 
     <div class="card">
 
@@ -254,7 +312,7 @@
 
                 <div class="insight-label">
 
-                    Avg Response
+                    Avg Response Time
 
                 </div>
 
