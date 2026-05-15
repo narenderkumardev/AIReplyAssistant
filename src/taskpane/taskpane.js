@@ -8,89 +8,142 @@ Office.onReady(() => {
 
 function initialize() {
 
+    // Confidence Slider
+
     const slider =
         document.getElementById(
             "confidenceSlider"
         );
 
-    slider.addEventListener(
-        "input",
-        () => {
+    if (slider) {
 
-            document.getElementById(
-                "confidenceValue"
-            ).innerText =
-                slider.value + "%";
-        }
-    );
+        slider.addEventListener(
+            "input",
+            () => {
+
+                const confidenceValue =
+                    document.getElementById(
+                        "confidenceValue"
+                    );
+
+                if (confidenceValue) {
+
+                    confidenceValue.innerText =
+                        slider.value + "%";
+                }
+            }
+        );
+    }
+
+    // Auto Pilot Toggle
 
     const autoPilot =
         document.getElementById(
             "autoPilotToggle"
         );
 
-    autoPilot.addEventListener(
-        "change",
-        () => {
+    if (autoPilot) {
 
-            const panel =
-                document.getElementById(
-                    "autoPilotSettings"
-                );
+        autoPilot.addEventListener(
+            "change",
+            () => {
 
-            if (autoPilot.checked) {
+                const panel =
+                    document.getElementById(
+                        "autoPilotSettings"
+                    );
 
-                panel.classList.remove(
-                    "hidden"
-                );
+                if (!panel) return;
 
-            } else {
+                if (autoPilot.checked) {
 
-                panel.classList.add(
-                    "hidden"
-                );
+                    panel.classList.remove(
+                        "hidden"
+                    );
+
+                } else {
+
+                    panel.classList.add(
+                        "hidden"
+                    );
+                }
             }
-        }
-    );
+        );
+    }
 
-    document.getElementById(
-        "saveBtn"
-    ).addEventListener(
-        "click",
-        saveSettings
-    );
+    // Save Button
+
+    const saveBtn =
+        document.getElementById(
+            "saveBtn"
+        );
+
+    if (saveBtn) {
+
+        saveBtn.addEventListener(
+            "click",
+            saveSettings
+        );
+    }
+
+    // Load Existing Settings
 
     loadSettings();
 }
 
 function saveSettings() {
 
+    const tone =
+        document.getElementById(
+            "tone"
+        );
+
+    const autoPilot =
+        document.getElementById(
+            "autoPilotToggle"
+        );
+
+    const confidence =
+        document.getElementById(
+            "confidenceSlider"
+        );
+
+    const highConfidence =
+        document.getElementById(
+            "highConfidenceAction"
+        );
+
+    const lowConfidence =
+        document.getElementById(
+            "lowConfidenceAction"
+        );
+
     const settings = {
 
         tone:
-            document.getElementById(
-                "tone"
-            ).value,
+            tone
+                ? tone.value
+                : "Professional",
 
         autoPilot:
-            document.getElementById(
-                "autoPilotToggle"
-            ).checked,
+            autoPilot
+                ? autoPilot.checked
+                : false,
 
         confidence:
-            document.getElementById(
-                "confidenceSlider"
-            ).value,
+            confidence
+                ? confidence.value
+                : 80,
 
         highConfidenceAction:
-            document.getElementById(
-                "highConfidenceAction"
-            ).value,
+            highConfidence
+                ? highConfidence.value
+                : "Save Draft",
 
         lowConfidenceAction:
-            document.getElementById(
-                "lowConfidenceAction"
-            ).value
+            lowConfidence
+                ? lowConfidence.value
+                : "Notify User"
     };
 
     localStorage.setItem(
@@ -115,45 +168,99 @@ function loadSettings() {
     const settings =
         JSON.parse(saved);
 
-    document.getElementById(
-        "tone"
-    ).value =
-        settings.tone ||
-        "Professional";
+    // Tone
 
-    document.getElementById(
-        "autoPilotToggle"
-    ).checked =
-        settings.autoPilot || false;
+    const tone =
+        document.getElementById(
+            "tone"
+        );
 
-    document.getElementById(
-        "confidenceSlider"
-    ).value =
-        settings.confidence || 80;
+    if (tone) {
 
-    document.getElementById(
-        "confidenceValue"
-    ).innerText =
-        (settings.confidence || 80)
-        + "%";
+        tone.value =
+            settings.tone ||
+            "Professional";
+    }
 
-    document.getElementById(
-        "highConfidenceAction"
-    ).value =
-        settings.highConfidenceAction ||
-        "Save Draft";
+    // Auto Pilot
 
-    document.getElementById(
-        "lowConfidenceAction"
-    ).value =
-        settings.lowConfidenceAction ||
-        "Notify User";
+    const autoPilot =
+        document.getElementById(
+            "autoPilotToggle"
+        );
 
-    if (settings.autoPilot) {
+    if (autoPilot) {
 
+        autoPilot.checked =
+            settings.autoPilot || false;
+    }
+
+    // Confidence
+
+    const confidence =
+        document.getElementById(
+            "confidenceSlider"
+        );
+
+    if (confidence) {
+
+        confidence.value =
+            settings.confidence || 80;
+    }
+
+    const confidenceValue =
+        document.getElementById(
+            "confidenceValue"
+        );
+
+    if (confidenceValue) {
+
+        confidenceValue.innerText =
+            (settings.confidence || 80)
+            + "%";
+    }
+
+    // High Confidence Action
+
+    const highConfidence =
+        document.getElementById(
+            "highConfidenceAction"
+        );
+
+    if (highConfidence) {
+
+        highConfidence.value =
+            settings.highConfidenceAction ||
+            "Save Draft";
+    }
+
+    // Low Confidence Action
+
+    const lowConfidence =
+        document.getElementById(
+            "lowConfidenceAction"
+        );
+
+    if (lowConfidence) {
+
+        lowConfidence.value =
+            settings.lowConfidenceAction ||
+            "Notify User";
+    }
+
+    // Auto Pilot Panel
+
+    const panel =
         document.getElementById(
             "autoPilotSettings"
-        ).classList.remove(
+        );
+
+    if (
+        panel &&
+        settings.autoPilot
+    ) {
+
+        panel.classList.remove(
             "hidden"
         );
     }
@@ -161,8 +268,14 @@ function loadSettings() {
 
 function showStatus(message) {
 
-    document.getElementById(
-        "statusBox"
-    ).innerText =
-        message;
+    const statusBox =
+        document.getElementById(
+            "statusBox"
+        );
+
+    if (statusBox) {
+
+        statusBox.innerText =
+            message;
+    }
 }
