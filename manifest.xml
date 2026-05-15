@@ -19,14 +19,14 @@
 
     <Description DefaultValue="AI-powered Outlook assistant."/>
 
-    <IconUrl DefaultValue="https://localhost:3000/assets/icon-64.png"/>
+    <IconUrl DefaultValue="https://ai-reply-assistant-tau.vercel.app/assets/icon-64.png"/>
 
-    <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-128.png"/>
+    <HighResolutionIconUrl DefaultValue="https://ai-reply-assistant-tau.vercel.app/assets/icon-128.png"/>
 
     <SupportUrl DefaultValue="https://nihilent.com"/>
 
     <AppDomains>
-        <AppDomain>https://localhost:3000</AppDomain>
+        <AppDomain>https://ai-reply-assistant-tau.vercel.app</AppDomain>
     </AppDomains>
 
     <Hosts>
@@ -47,7 +47,7 @@
 
             <DesktopSettings>
 
-                <SourceLocation DefaultValue="https://localhost:3000/taskpane.html"/>
+                <SourceLocation DefaultValue="https://ai-reply-assistant-tau.vercel.app/taskpane.html"/>
 
                 <RequestedHeight>250</RequestedHeight>
 
@@ -256,23 +256,23 @@
             <bt:Images>
 
                 <bt:Image id="Icon.16x16"
-                    DefaultValue="https://localhost:3000/assets/icon-16.png"/>
+                    DefaultValue="https://ai-reply-assistant-tau.vercel.app/assets/icon-16.png"/>
 
                 <bt:Image id="Icon.32x32"
-                    DefaultValue="https://localhost:3000/assets/icon-32.png"/>
+                    DefaultValue="https://ai-reply-assistant-tau.vercel.app/assets/icon-32.png"/>
 
                 <bt:Image id="Icon.80x80"
-                    DefaultValue="https://localhost:3000/assets/icon-80.png"/>
+                    DefaultValue="https://ai-reply-assistant-tau.vercel.app/assets/icon-80.png"/>
 
             </bt:Images>
 
             <bt:Urls>
 
                 <bt:Url id="Commands.Url"
-                    DefaultValue="https://localhost:3000/commands.html"/>
+                    DefaultValue="https://ai-reply-assistant-tau.vercel.app/commands.html"/>
 
                 <bt:Url id="Taskpane.Url"
-                    DefaultValue="https://localhost:3000/taskpane.html"/>
+                    DefaultValue="https://ai-reply-assistant-tau.vercel.app/taskpane.html"/>
 
             </bt:Urls>
 
