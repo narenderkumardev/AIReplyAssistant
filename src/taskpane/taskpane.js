@@ -1,11 +1,11 @@
-
+/* global Office */
 
 const supabaseClient =
     window.supabase.createClient(
 
         "https://vpszsnlevsrphplciitx.supabase.co",
 
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwc3pzbmxldnNycGhwbGNpaXR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDE5MTksImV4cCI6MjA5NDQxNzkxOX0.zHm_4_css3VEIDqWGAi6oUrsDI9PdE-FkY5mvKBAZfU"
+        "YOUR_SUPABASE_ANON_KEY"
     );
 
 Office.onReady(() => {
@@ -113,9 +113,19 @@ async function saveSettings() {
 
     try {
 
-        const mailboxUser =
-            Office.context.mailbox
-            .userProfile.emailAddress;
+        let mailboxUser =
+            "unknown@local";
+
+        if (
+            Office.context &&
+            Office.context.mailbox &&
+            Office.context.mailbox.userProfile
+        ) {
+
+            mailboxUser =
+                Office.context.mailbox
+                .userProfile.emailAddress;
+        }
 
         const settings = {
 
@@ -264,9 +274,19 @@ async function loadSettings() {
 
     try {
 
-        const mailboxUser =
-            Office.context.mailbox
-            .userProfile.emailAddress;
+        let mailboxUser =
+            "unknown@local";
+
+        if (
+            Office.context &&
+            Office.context.mailbox &&
+            Office.context.mailbox.userProfile
+        ) {
+
+            mailboxUser =
+                Office.context.mailbox
+                .userProfile.emailAddress;
+        }
 
         const {
             data,
@@ -278,7 +298,7 @@ async function loadSettings() {
                 "mailbox_user",
                 mailboxUser
             )
-            .single();
+            .maybeSingle();
 
         let settings = data;
 
@@ -289,7 +309,14 @@ async function loadSettings() {
                     "ai_reply_settings"
                 );
 
-            if (!local) return;
+            if (!local) {
+
+                showStatus(
+                    "Using default settings."
+                );
+
+                return;
+            }
 
             settings =
                 JSON.parse(local);
@@ -369,6 +396,10 @@ async function loadSettings() {
         console.error(
             "Load Settings Error:",
             error
+        );
+
+        showStatus(
+            "Using local settings."
         );
     }
 }
