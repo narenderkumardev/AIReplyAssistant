@@ -1,5 +1,13 @@
 /* global Office */
 
+const supabaseClient =
+    window.supabase.createClient(
+
+        "https://vpszsnlevsrphplciitx.supabase.co",
+
+        "YOUR_ANON_PUBLIC_KEY"
+    );
+
 Office.onReady(() => {
 
     Office.actions.associate(
@@ -10,6 +18,9 @@ Office.onReady(() => {
 });
 
 async function generateAIReply(event) {
+
+    const startTime =
+        Date.now();
 
     try {
 
@@ -55,14 +66,13 @@ async function generateAIReply(event) {
                 );
 
                 const mailboxUser =
-                    Office.context.mailbox.userProfile.emailAddress;
+                    Office.context.mailbox
+                    .userProfile.emailAddress;
 
                 console.log(
                     "Mailbox User:",
                     mailboxUser
                 );
-
-                // LOCAL CACHE
 
                 let settings =
                     JSON.parse(
@@ -75,12 +85,11 @@ async function generateAIReply(event) {
                     settings.tone ||
                     "Professional";
 
-                // FUTURE BACKEND FLOW
-                // Here later you will:
-                // 1. Call REST API
-                // 2. Load settings from Supabase
-                // 3. Generate Gemini/OpenAI response
-                // 4. Save insights
+                // TEMP CONFIDENCE
+                // Later Gemini/OpenAI will provide this
+
+                const confidence =
+                    85;
 
                 const aiReply =
 `
@@ -112,8 +121,54 @@ Please review before sending.
                         "Reply form opened successfully."
                     );
 
-                    // FUTURE:
-                    // Save insights via REST API
+                    // SAVE INSIGHTS
+
+                    const responseTime =
+                        Math.floor(
+                            (
+                                Date.now()
+                                - startTime
+                            ) / 1000
+                        );
+
+                    const {
+                        error
+                    } =
+                        await supabaseClient
+                        .from(
+                            "email_insights"
+                        )
+                        .insert({
+
+                            mailbox_user:
+                                mailboxUser,
+
+                            source:
+                                "AI_REPLY",
+
+                            action_type:
+                                "DRAFT",
+
+                            confidence:
+                                confidence,
+
+                            response_time_seconds:
+                                responseTime
+                        });
+
+                    if (error) {
+
+                        console.error(
+                            "Insights Save Error:",
+                            error
+                        );
+
+                    } else {
+
+                        console.log(
+                            "Insights saved successfully."
+                        );
+                    }
 
                 }
                 catch (replyError) {
