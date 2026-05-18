@@ -69,7 +69,7 @@
 
     <DisableEntityHighlighting>false</DisableEntityHighlighting>
 
-    ```xml
+
 <VersionOverrides
     xmlns="http://schemas.microsoft.com/office/mailappversionoverrides"
     xsi:type="VersionOverridesV1_0">
