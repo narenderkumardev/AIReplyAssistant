@@ -24,7 +24,7 @@ function initialize() {
 
     loadSettings();
 
-    startAutoRefresh();
+    
 }
 
 function startAutoRefresh() {
