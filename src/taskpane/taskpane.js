@@ -158,11 +158,11 @@ async function saveSettings() {
                     "Business Hours Only"
                 ),
 
-            endDate:
+                        endDate:
                 getElementValue(
                     "endDate",
-                    null
-                ),
+                    ""
+                ) || null,
 
             highConfidenceAction:
                 getElementValue(
