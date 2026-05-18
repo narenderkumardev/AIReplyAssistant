@@ -5,7 +5,7 @@ const supabaseClient =
 
         "https://vpszsnlevsrphplciitx.supabase.co",
 
-        "YOUR_SUPABASE_ANON_KEY"
+        "sb_secret_EV5PCEMQRukI36OwXu2KJA_9i52agn5"
     );
 
 Office.onReady(() => {
