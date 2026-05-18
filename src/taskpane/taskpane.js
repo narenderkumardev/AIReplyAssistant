@@ -24,7 +24,7 @@ function initialize() {
 
     loadSettings();
 
-    
+    loadInsights();
 }
 
 function startAutoRefresh() {
@@ -360,6 +360,119 @@ async function triggerBackendSetup(
 
         console.error(
             "Backend setup error:",
+            error
+        );
+    }
+}
+
+async function loadInsights() {
+
+    try {
+
+        let mailboxUser =
+            "unknown@local";
+
+        if (
+            Office.context &&
+            Office.context.mailbox &&
+            Office.context.mailbox.userProfile
+        ) {
+
+            mailboxUser =
+                Office.context.mailbox
+                .userProfile.emailAddress;
+        }
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("email_insights")
+            .select("*")
+            .eq(
+                "mailbox_user",
+                mailboxUser
+            );
+
+        if (error) {
+
+            console.error(
+                "Insights Load Error:",
+                error
+            );
+
+            return;
+        }
+
+        if (!data) return;
+
+        const processedToday =
+            data.length;
+
+        const pendingReview =
+            data.filter(x =>
+                x.confidence < 80
+            ).length;
+
+        const autoReplies =
+            data.filter(x =>
+                x.source ===
+                "AI_REPLY"
+            ).length;
+
+        let avgResponse =
+            0;
+
+        if (data.length > 0) {
+
+            const total =
+                data.reduce(
+                    (
+                        sum,
+                        item
+                    ) => {
+
+                        return sum +
+                            (
+                                item.response_time_seconds
+                                || 0
+                            );
+
+                    },
+                    0
+                );
+
+            avgResponse =
+                Math.floor(
+                    total / data.length
+                );
+        }
+
+        setElementText(
+            "processedToday",
+            processedToday
+        );
+
+        setElementText(
+            "pendingReview",
+            pendingReview
+        );
+
+        setElementText(
+            "autoReplies",
+            autoReplies
+        );
+
+        setElementText(
+            "avgResponse",
+            avgResponse + "s"
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Load Insights Error:",
             error
         );
     }
