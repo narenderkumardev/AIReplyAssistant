@@ -5,7 +5,7 @@ const supabaseClient =
 
         "https://vpszsnlevsrphplciitx.supabase.co",
 
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwc3pzbmxldnNycGhwbGNpaXR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDE5MTksImV4cCI6MjA5NDQxNzkxOX0.zHm_4_css3VEIDqWGAi6oUrsDI9PdE-FkY5mvKBAZfU"
+        "YOUR_SUPABASE_ANON_KEY"
     );
 
 Office.onReady(() => {
@@ -23,6 +23,17 @@ function initialize() {
     initializeSaveButton();
 
     loadSettings();
+
+    startAutoRefresh();
+}
+
+function startAutoRefresh() {
+
+    setInterval(() => {
+
+        loadSettings();
+
+    }, 5000);
 }
 
 function initializeConfidenceSlider() {
@@ -38,15 +49,10 @@ function initializeConfidenceSlider() {
         "input",
         () => {
 
-            const confidenceValue =
-                document.getElementById(
-                    "confidenceValue"
-                );
-
-            if (!confidenceValue) return;
-
-            confidenceValue.innerText =
-                slider.value + "%";
+            setElementText(
+                "confidenceValue",
+                slider.value + "%"
+            );
         }
     );
 }
@@ -62,11 +68,18 @@ function initializeAutoReplyToggle() {
 
     autoReplyToggle.addEventListener(
         "change",
-        () => {
+        async () => {
 
             toggleAutoReplyPanel(
                 autoReplyToggle.checked
             );
+
+            if (
+                autoReplyToggle.checked
+            ) {
+
+                await setAutomationPending();
+            }
         }
     );
 }
@@ -109,6 +122,13 @@ function toggleAutoReplyPanel(isEnabled) {
     }
 }
 
+async function setAutomationPending() {
+
+    showStatus(
+        "⚡ Auto Reply setup in progress..."
+    );
+}
+
 async function saveSettings() {
 
     try {
@@ -127,6 +147,12 @@ async function saveSettings() {
                 .userProfile.emailAddress;
         }
 
+        const autoReplyEnabled =
+            getElementChecked(
+                "autoPilotToggle",
+                false
+            );
+
         const settings = {
 
             mailboxUser:
@@ -139,10 +165,7 @@ async function saveSettings() {
                 ),
 
             autoReplyEnabled:
-                getElementChecked(
-                    "autoPilotToggle",
-                    false
-                ),
+                autoReplyEnabled,
 
             confidence:
                 parseInt(
@@ -158,7 +181,7 @@ async function saveSettings() {
                     "Business Hours Only"
                 ),
 
-                        endDate:
+            endDate:
                 getElementValue(
                     "endDate",
                     ""
@@ -195,7 +218,17 @@ async function saveSettings() {
                         "faqDb",
                         true
                     )
-            }
+            },
+
+            automationStatus:
+                autoReplyEnabled
+                    ? "PENDING_SETUP"
+                    : "NOT_ENABLED",
+
+            automationMessage:
+                autoReplyEnabled
+                    ? "Preparing automation..."
+                    : "Auto Reply disabled."
         };
 
         localStorage.setItem(
@@ -235,6 +268,15 @@ async function saveSettings() {
                 knowledge_sources:
                     settings.knowledgeSources,
 
+                automation_status:
+                    settings.automationStatus,
+
+                automation_message:
+                    settings.automationMessage,
+
+                automation_updated_at:
+                    new Date(),
+
                 updated_at:
                     new Date()
             });
@@ -247,15 +289,24 @@ async function saveSettings() {
             );
 
             showStatus(
-                "Supabase save failed."
+                "❌ Supabase save failed."
             );
 
             return;
         }
 
         showStatus(
-            "Settings synced successfully."
+            autoReplyEnabled
+                ? "⚡ Auto Reply setup started."
+                : "✅ Settings saved successfully."
         );
+
+        if (autoReplyEnabled) {
+
+            await triggerBackendSetup(
+                mailboxUser
+            );
+        }
     }
     catch (error) {
 
@@ -265,7 +316,44 @@ async function saveSettings() {
         );
 
         showStatus(
-            "Failed to save settings."
+            "❌ Failed to save settings."
+        );
+    }
+}
+
+async function triggerBackendSetup(
+    mailboxUser
+) {
+
+    try {
+
+        /*
+            FUTURE IMPLEMENTATION
+
+            await fetch(
+                "https://your-api/api/automation/setup",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        mailboxUser
+                    })
+                }
+            );
+        */
+
+        console.log(
+            "Backend setup placeholder:",
+            mailboxUser
+        );
+    }
+    catch (error) {
+
+        console.error(
+            "Backend setup error:",
+            error
         );
     }
 }
@@ -387,8 +475,8 @@ async function loadSettings() {
             settings.autoReplyEnabled
         );
 
-        showStatus(
-            "Settings loaded successfully."
+        updateAutomationStatus(
+            settings
         );
     }
     catch (error) {
@@ -401,6 +489,69 @@ async function loadSettings() {
         showStatus(
             "Using local settings."
         );
+    }
+}
+
+function updateAutomationStatus(
+    settings
+) {
+
+    const status =
+        settings.automation_status ||
+        settings.automationStatus;
+
+    const message =
+        settings.automation_message ||
+        settings.automationMessage;
+
+    if (!status) {
+
+        showStatus(
+            "Ready"
+        );
+
+        return;
+    }
+
+    switch (status) {
+
+        case "PENDING_SETUP":
+
+            showStatus(
+                "⚡ " + message
+            );
+
+            break;
+
+        case "INITIALIZING":
+
+            showStatus(
+                "⏳ " + message
+            );
+
+            break;
+
+        case "ACTIVE":
+
+            showStatus(
+                "✅ Auto Reply Active"
+            );
+
+            break;
+
+        case "ERROR":
+
+            showStatus(
+                "❌ " + message
+            );
+
+            break;
+
+        default:
+
+            showStatus(
+                message || "Ready"
+            );
     }
 }
 
