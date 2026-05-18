@@ -1,4 +1,4 @@
-/* global Office */
+
 
 const supabaseUrl =
     process.env.SUPABASE_URL;
