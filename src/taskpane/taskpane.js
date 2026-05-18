@@ -5,7 +5,7 @@ const supabaseClient =
 
         "https://vpszsnlevsrphplciitx.supabase.co",
 
-        "sb_secret_EV5PCEMQRukI36OwXu2KJA_9i52agn5"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwc3pzbmxldnNycGhwbGNpaXR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDE5MTksImV4cCI6MjA5NDQxNzkxOX0.zHm_4_css3VEIDqWGAi6oUrsDI9PdE-FkY5mvKBAZfU"
     );
 
 Office.onReady(() => {
