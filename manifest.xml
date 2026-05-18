@@ -7,7 +7,7 @@
     xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
     xsi:type="MailApp">
 
-    <Id>2386e9cf-d472-431d-9d61-a3f63e5b28cc</Id>
+    <Id>a8d94464-d472-48d7-83d3-602260fece6d</Id>
 
     <Version>1.0.0.0</Version>
 
@@ -188,9 +188,9 @@
                                     <SourceLocation
                                         resid="Taskpane.Url"/>
 
-                                    <SupportsPinning>
+                                    <!-- <SupportsPinning>
                                         true
-                                    </SupportsPinning>
+                                    </SupportsPinning> -->
 
                                 </Action>
 
