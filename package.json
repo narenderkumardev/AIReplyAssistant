@@ -26,6 +26,7 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.105.4",
     "core-js": "^3.36.0",
     "regenerator-runtime": "^0.14.1"
   },

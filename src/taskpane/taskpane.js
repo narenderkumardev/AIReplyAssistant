@@ -1,5 +1,8 @@
 /* global Office */
 
+import { supabase }
+from "../services/supabase";
+
 Office.onReady(() => {
 
     initialize();
@@ -101,7 +104,7 @@ function toggleAutoReplyPanel(isEnabled) {
     }
 }
 
-function saveSettings() {
+async function saveSettings() {
 
     try {
 
@@ -127,9 +130,11 @@ function saveSettings() {
                 ),
 
             confidence:
-                getElementValue(
-                    "confidenceSlider",
-                    80
+                parseInt(
+                    getElementValue(
+                        "confidenceSlider",
+                        80
+                    )
                 ),
 
             businessHours:
@@ -141,7 +146,7 @@ function saveSettings() {
             endDate:
                 getElementValue(
                     "endDate",
-                    ""
+                    null
                 ),
 
             highConfidenceAction:
@@ -175,37 +180,79 @@ function saveSettings() {
                         "faqDb",
                         true
                     )
-            },
-
-            cacheTime:
-                new Date().toISOString()
+            }
         };
+
+        /*
+        LOCAL CACHE
+        */
 
         localStorage.setItem(
             "ai_reply_settings",
             JSON.stringify(settings)
         );
 
+        /*
+        SUPABASE SAVE
+        */
+
+        const { error } =
+            await supabase
+            .from("user_settings")
+            .upsert({
+
+                mailbox_user:
+                    settings.mailboxUser,
+
+                tone:
+                    settings.tone,
+
+                auto_reply_enabled:
+                    settings.autoReplyEnabled,
+
+                confidence:
+                    settings.confidence,
+
+                business_hours:
+                    settings.businessHours,
+
+                end_date:
+                    settings.endDate,
+
+                high_confidence_action:
+                    settings.highConfidenceAction,
+
+                low_confidence_action:
+                    settings.lowConfidenceAction,
+
+                knowledge_sources:
+                    settings.knowledgeSources,
+
+                updated_at:
+                    new Date()
+            });
+
+        if (error) {
+
+            console.error(
+                "Supabase Save Error:",
+                error
+            );
+
+            showStatus(
+                "Supabase save failed."
+            );
+
+            return;
+        }
+
         console.log(
             "Settings Saved:",
             settings
         );
 
-        /*
-        FUTURE REST API FLOW
-
-        POST:
-        /api/settings/save
-
-        BODY:
-        settings
-
-        Backend:
-        → Save to Supabase
-        */
-
         showStatus(
-            "Settings saved successfully."
+            "Settings synced successfully."
         );
 
     }
@@ -222,19 +269,55 @@ function saveSettings() {
     }
 }
 
-function loadSettings() {
+async function loadSettings() {
 
     try {
 
-        const saved =
-            localStorage.getItem(
-                "ai_reply_settings"
+        const mailboxUser =
+            Office.context.mailbox
+            .userProfile.emailAddress;
+
+        /*
+        LOAD FROM SUPABASE
+        */
+
+        const {
+            data,
+            error
+        } = await supabase
+            .from("user_settings")
+            .select("*")
+            .eq(
+                "mailbox_user",
+                mailboxUser
+            )
+            .single();
+
+        /*
+        FALLBACK LOCAL CACHE
+        */
+
+        let settings = data;
+
+        if (!settings) {
+
+            const local =
+                localStorage.getItem(
+                    "ai_reply_settings"
+                );
+
+            if (!local) return;
+
+            settings =
+                JSON.parse(local);
+        }
+
+        if (error) {
+
+            console.log(
+                "Using local cache settings."
             );
-
-        if (!saved) return;
-
-        const settings =
-            JSON.parse(saved);
+        }
 
         setElementValue(
             "tone",
@@ -244,6 +327,7 @@ function loadSettings() {
 
         setElementChecked(
             "autoPilotToggle",
+            settings.auto_reply_enabled ||
             settings.autoReplyEnabled ||
             false
         );
@@ -262,55 +346,61 @@ function loadSettings() {
 
         setElementValue(
             "businessHours",
+            settings.business_hours ||
             settings.businessHours ||
             "Business Hours Only"
         );
 
         setElementValue(
             "endDate",
-            settings.endDate || ""
+            settings.end_date ||
+            settings.endDate ||
+            ""
         );
 
         setElementValue(
             "highConfidenceAction",
+            settings.high_confidence_action ||
             settings.highConfidenceAction ||
             "Save Draft"
         );
 
         setElementValue(
             "lowConfidenceAction",
+            settings.low_confidence_action ||
             settings.lowConfidenceAction ||
             "Notify User"
         );
 
-        if (
-            settings.knowledgeSources
-        ) {
+        const sources =
+            settings.knowledge_sources ||
+            settings.knowledgeSources;
+
+        if (sources) {
 
             setElementChecked(
                 "mailHistory",
-                settings
-                .knowledgeSources
-                .mailHistory
+                sources.mailHistory
             );
 
             setElementChecked(
                 "sharepoint",
-                settings
-                .knowledgeSources
-                .sharepoint
+                sources.sharepoint
             );
 
             setElementChecked(
                 "faqDb",
-                settings
-                .knowledgeSources
-                .faqDb
+                sources.faqDb
             );
         }
 
         toggleAutoReplyPanel(
+            settings.auto_reply_enabled ||
             settings.autoReplyEnabled
+        );
+
+        showStatus(
+            "Settings loaded successfully."
         );
 
     }
