@@ -7,17 +7,11 @@
     xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides"
     xsi:type="MailApp">
 
-    <Id>
-        a8d94464-d472-48d7-83d3-602260fece6d
-    </Id>
+    <Id>a8d94464-d472-48d7-83d3-602260fece6d</Id>
 
-    <Version>
-        1.0.0.1
-    </Version>
+    <Version>1.0.0.1</Version>
 
-    <ProviderName>
-        WebSvc
-    </ProviderName>
+    <ProviderName>Nihilent</ProviderName>
 
     <DefaultLocale>
         en-US
