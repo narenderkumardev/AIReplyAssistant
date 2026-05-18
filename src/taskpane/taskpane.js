@@ -239,47 +239,54 @@ async function saveSettings() {
         const { error } =
             await supabaseClient
             .from("user_settings")
-            .upsert({
+            .upsert(
+                {
 
-                mailbox_user:
-                    settings.mailboxUser,
+                    mailbox_user:
+                        settings.mailboxUser,
 
-                tone:
-                    settings.tone,
+                    tone:
+                        settings.tone,
 
-                auto_reply_enabled:
-                    settings.autoReplyEnabled,
+                    auto_reply_enabled:
+                        settings.autoReplyEnabled,
 
-                confidence:
-                    settings.confidence,
+                    confidence:
+                        settings.confidence,
 
-                business_hours:
-                    settings.businessHours,
+                    business_hours:
+                        settings.businessHours,
 
-                end_date:
-                    settings.endDate,
+                    end_date:
+                        settings.endDate,
 
-                high_confidence_action:
-                    settings.highConfidenceAction,
+                    high_confidence_action:
+                        settings.highConfidenceAction,
 
-                low_confidence_action:
-                    settings.lowConfidenceAction,
+                    low_confidence_action:
+                        settings.lowConfidenceAction,
 
-                knowledge_sources:
-                    settings.knowledgeSources,
+                    knowledge_sources:
+                        settings.knowledgeSources,
 
-                automation_status:
-                    settings.automationStatus,
+                    automation_status:
+                        settings.automationStatus,
 
-                automation_message:
-                    settings.automationMessage,
+                    automation_message:
+                        settings.automationMessage,
 
-                automation_updated_at:
-                    new Date(),
+                    automation_updated_at:
+                        new Date(),
 
-                updated_at:
-                    new Date()
-            });
+                    updated_at:
+                        new Date()
+                },
+
+                {
+                    onConflict:
+                        "mailbox_user"
+                }
+            );
 
         if (error) {
 
