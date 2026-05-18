@@ -1,7 +1,16 @@
 /* global Office */
 
-import { supabase }
-from "../services/supabase";
+const supabaseUrl =
+    process.env.SUPABASE_URL;
+
+const supabaseKey =
+    process.env.SUPABASE_ANON_KEY;
+
+const supabase =
+    window.supabase.createClient(
+        supabaseUrl,
+        supabaseKey
+    );
 
 Office.onReady(() => {
 
@@ -183,18 +192,10 @@ async function saveSettings() {
             }
         };
 
-        /*
-        LOCAL CACHE
-        */
-
         localStorage.setItem(
             "ai_reply_settings",
             JSON.stringify(settings)
         );
-
-        /*
-        SUPABASE SAVE
-        */
 
         const { error } =
             await supabase
@@ -246,15 +247,9 @@ async function saveSettings() {
             return;
         }
 
-        console.log(
-            "Settings Saved:",
-            settings
-        );
-
         showStatus(
             "Settings synced successfully."
         );
-
     }
     catch (error) {
 
@@ -277,10 +272,6 @@ async function loadSettings() {
             Office.context.mailbox
             .userProfile.emailAddress;
 
-        /*
-        LOAD FROM SUPABASE
-        */
-
         const {
             data,
             error
@@ -292,10 +283,6 @@ async function loadSettings() {
                 mailboxUser
             )
             .single();
-
-        /*
-        FALLBACK LOCAL CACHE
-        */
 
         let settings = data;
 
@@ -372,28 +359,6 @@ async function loadSettings() {
             "Notify User"
         );
 
-        const sources =
-            settings.knowledge_sources ||
-            settings.knowledgeSources;
-
-        if (sources) {
-
-            setElementChecked(
-                "mailHistory",
-                sources.mailHistory
-            );
-
-            setElementChecked(
-                "sharepoint",
-                sources.sharepoint
-            );
-
-            setElementChecked(
-                "faqDb",
-                sources.faqDb
-            );
-        }
-
         toggleAutoReplyPanel(
             settings.auto_reply_enabled ||
             settings.autoReplyEnabled
@@ -402,7 +367,6 @@ async function loadSettings() {
         showStatus(
             "Settings loaded successfully."
         );
-
     }
     catch (error) {
 
