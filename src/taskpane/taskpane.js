@@ -1,15 +1,11 @@
 
 
-const supabaseUrl =
-    process.env.SUPABASE_URL;
-
-const supabaseKey =
-    process.env.SUPABASE_ANON_KEY;
-
-const supabase =
+const supabaseClient =
     window.supabase.createClient(
-        supabaseUrl,
-        supabaseKey
+
+        process.env.SUPABASE_URL,
+
+        process.env.SUPABASE_ANON_KEY
     );
 
 Office.onReady(() => {
@@ -198,7 +194,7 @@ async function saveSettings() {
         );
 
         const { error } =
-            await supabase
+            await supabaseClient
             .from("user_settings")
             .upsert({
 
@@ -275,7 +271,7 @@ async function loadSettings() {
         const {
             data,
             error
-        } = await supabase
+        } = await supabaseClient
             .from("user_settings")
             .select("*")
             .eq(
