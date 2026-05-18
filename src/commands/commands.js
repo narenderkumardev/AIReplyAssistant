@@ -9,7 +9,7 @@ Office.onReady(() => {
 
 });
 
-function generateAIReply(event) {
+async function generateAIReply(event) {
 
     try {
 
@@ -30,7 +30,7 @@ function generateAIReply(event) {
         item.body.getAsync(
             Office.CoercionType.Text,
 
-            function(result) {
+            async function(result) {
 
                 if (
                     result.status !==
@@ -54,7 +54,17 @@ function generateAIReply(event) {
                     emailBody
                 );
 
-                const settings =
+                const mailboxUser =
+                    Office.context.mailbox.userProfile.emailAddress;
+
+                console.log(
+                    "Mailbox User:",
+                    mailboxUser
+                );
+
+                // LOCAL CACHE
+
+                let settings =
                     JSON.parse(
                         localStorage.getItem(
                             "ai_reply_settings"
@@ -65,6 +75,13 @@ function generateAIReply(event) {
                     settings.tone ||
                     "Professional";
 
+                // FUTURE BACKEND FLOW
+                // Here later you will:
+                // 1. Call REST API
+                // 2. Load settings from Supabase
+                // 3. Generate Gemini/OpenAI response
+                // 4. Save insights
+
                 const aiReply =
 `
 Hello,
@@ -73,7 +90,7 @@ Thank you for your email.
 
 We are reviewing your request and will get back to you shortly.
 
-Tone Selected:
+Response Tone:
 ${tone}
 
 Regards,
@@ -94,6 +111,9 @@ Please review before sending.
                     console.log(
                         "Reply form opened successfully."
                     );
+
+                    // FUTURE:
+                    // Save insights via REST API
 
                 }
                 catch (replyError) {

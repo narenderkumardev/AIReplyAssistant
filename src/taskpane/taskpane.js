@@ -8,260 +8,317 @@ Office.onReady(() => {
 
 function initialize() {
 
-    // Confidence Slider
+    initializeConfidenceSlider();
+
+    initializeAutoReplyToggle();
+
+    initializeSaveButton();
+
+    loadSettings();
+}
+
+function initializeConfidenceSlider() {
 
     const slider =
         document.getElementById(
             "confidenceSlider"
         );
 
-    if (slider) {
+    if (!slider) return;
 
-        slider.addEventListener(
-            "input",
-            () => {
+    slider.addEventListener(
+        "input",
+        () => {
 
-                const confidenceValue =
-                    document.getElementById(
-                        "confidenceValue"
-                    );
+            const confidenceValue =
+                document.getElementById(
+                    "confidenceValue"
+                );
 
-                if (confidenceValue) {
+            if (!confidenceValue) return;
 
-                    confidenceValue.innerText =
-                        slider.value + "%";
-                }
-            }
-        );
-    }
+            confidenceValue.innerText =
+                slider.value + "%";
+        }
+    );
+}
 
-    // Auto Pilot Toggle
+function initializeAutoReplyToggle() {
 
-    const autoPilot =
+    const autoReplyToggle =
         document.getElementById(
             "autoPilotToggle"
         );
 
-    if (autoPilot) {
+    if (!autoReplyToggle) return;
 
-        autoPilot.addEventListener(
-            "change",
-            () => {
+    autoReplyToggle.addEventListener(
+        "change",
+        () => {
 
-                const panel =
-                    document.getElementById(
-                        "autoPilotSettings"
-                    );
+            toggleAutoReplyPanel(
+                autoReplyToggle.checked
+            );
+        }
+    );
+}
 
-                if (!panel) return;
-
-                if (autoPilot.checked) {
-
-                    panel.classList.remove(
-                        "hidden"
-                    );
-
-                } else {
-
-                    panel.classList.add(
-                        "hidden"
-                    );
-                }
-            }
-        );
-    }
-
-    // Save Button
+function initializeSaveButton() {
 
     const saveBtn =
         document.getElementById(
             "saveBtn"
         );
 
-    if (saveBtn) {
+    if (!saveBtn) return;
 
-        saveBtn.addEventListener(
-            "click",
-            saveSettings
-        );
-    }
-
-    // Load Existing Settings
-
-    loadSettings();
-}
-
-function saveSettings() {
-
-    const tone =
-        document.getElementById(
-            "tone"
-        );
-
-    const autoPilot =
-        document.getElementById(
-            "autoPilotToggle"
-        );
-
-    const confidence =
-        document.getElementById(
-            "confidenceSlider"
-        );
-
-    const highConfidence =
-        document.getElementById(
-            "highConfidenceAction"
-        );
-
-    const lowConfidence =
-        document.getElementById(
-            "lowConfidenceAction"
-        );
-
-    const settings = {
-
-        tone:
-            tone
-                ? tone.value
-                : "Professional",
-
-        autoPilot:
-            autoPilot
-                ? autoPilot.checked
-                : false,
-
-        confidence:
-            confidence
-                ? confidence.value
-                : 80,
-
-        highConfidenceAction:
-            highConfidence
-                ? highConfidence.value
-                : "Save Draft",
-
-        lowConfidenceAction:
-            lowConfidence
-                ? lowConfidence.value
-                : "Notify User"
-    };
-
-    localStorage.setItem(
-        "ai_reply_settings",
-        JSON.stringify(settings)
-    );
-
-    showStatus(
-        "Settings saved successfully."
+    saveBtn.addEventListener(
+        "click",
+        saveSettings
     );
 }
 
-function loadSettings() {
-
-    const saved =
-        localStorage.getItem(
-            "ai_reply_settings"
-        );
-
-    if (!saved) return;
-
-    const settings =
-        JSON.parse(saved);
-
-    // Tone
-
-    const tone =
-        document.getElementById(
-            "tone"
-        );
-
-    if (tone) {
-
-        tone.value =
-            settings.tone ||
-            "Professional";
-    }
-
-    // Auto Pilot
-
-    const autoPilot =
-        document.getElementById(
-            "autoPilotToggle"
-        );
-
-    if (autoPilot) {
-
-        autoPilot.checked =
-            settings.autoPilot || false;
-    }
-
-    // Confidence
-
-    const confidence =
-        document.getElementById(
-            "confidenceSlider"
-        );
-
-    if (confidence) {
-
-        confidence.value =
-            settings.confidence || 80;
-    }
-
-    const confidenceValue =
-        document.getElementById(
-            "confidenceValue"
-        );
-
-    if (confidenceValue) {
-
-        confidenceValue.innerText =
-            (settings.confidence || 80)
-            + "%";
-    }
-
-    // High Confidence Action
-
-    const highConfidence =
-        document.getElementById(
-            "highConfidenceAction"
-        );
-
-    if (highConfidence) {
-
-        highConfidence.value =
-            settings.highConfidenceAction ||
-            "Save Draft";
-    }
-
-    // Low Confidence Action
-
-    const lowConfidence =
-        document.getElementById(
-            "lowConfidenceAction"
-        );
-
-    if (lowConfidence) {
-
-        lowConfidence.value =
-            settings.lowConfidenceAction ||
-            "Notify User";
-    }
-
-    // Auto Pilot Panel
+function toggleAutoReplyPanel(isEnabled) {
 
     const panel =
         document.getElementById(
             "autoPilotSettings"
         );
 
-    if (
-        panel &&
-        settings.autoPilot
-    ) {
+    if (!panel) return;
+
+    if (isEnabled) {
 
         panel.classList.remove(
             "hidden"
+        );
+
+    } else {
+
+        panel.classList.add(
+            "hidden"
+        );
+    }
+}
+
+function saveSettings() {
+
+    try {
+
+        const mailboxUser =
+            Office.context.mailbox
+            .userProfile.emailAddress;
+
+        const settings = {
+
+            mailboxUser:
+                mailboxUser,
+
+            tone:
+                getElementValue(
+                    "tone",
+                    "Professional"
+                ),
+
+            autoReplyEnabled:
+                getElementChecked(
+                    "autoPilotToggle",
+                    false
+                ),
+
+            confidence:
+                getElementValue(
+                    "confidenceSlider",
+                    80
+                ),
+
+            businessHours:
+                getElementValue(
+                    "businessHours",
+                    "Business Hours Only"
+                ),
+
+            endDate:
+                getElementValue(
+                    "endDate",
+                    ""
+                ),
+
+            highConfidenceAction:
+                getElementValue(
+                    "highConfidenceAction",
+                    "Save Draft"
+                ),
+
+            lowConfidenceAction:
+                getElementValue(
+                    "lowConfidenceAction",
+                    "Notify User"
+                ),
+
+            knowledgeSources: {
+
+                mailHistory:
+                    getElementChecked(
+                        "mailHistory",
+                        true
+                    ),
+
+                sharepoint:
+                    getElementChecked(
+                        "sharepoint",
+                        true
+                    ),
+
+                faqDb:
+                    getElementChecked(
+                        "faqDb",
+                        true
+                    )
+            },
+
+            cacheTime:
+                new Date().toISOString()
+        };
+
+        localStorage.setItem(
+            "ai_reply_settings",
+            JSON.stringify(settings)
+        );
+
+        console.log(
+            "Settings Saved:",
+            settings
+        );
+
+        /*
+        FUTURE REST API FLOW
+
+        POST:
+        /api/settings/save
+
+        BODY:
+        settings
+
+        Backend:
+        → Save to Supabase
+        */
+
+        showStatus(
+            "Settings saved successfully."
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Save Settings Error:",
+            error
+        );
+
+        showStatus(
+            "Failed to save settings."
+        );
+    }
+}
+
+function loadSettings() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                "ai_reply_settings"
+            );
+
+        if (!saved) return;
+
+        const settings =
+            JSON.parse(saved);
+
+        setElementValue(
+            "tone",
+            settings.tone ||
+            "Professional"
+        );
+
+        setElementChecked(
+            "autoPilotToggle",
+            settings.autoReplyEnabled ||
+            false
+        );
+
+        setElementValue(
+            "confidenceSlider",
+            settings.confidence ||
+            80
+        );
+
+        setElementText(
+            "confidenceValue",
+            (settings.confidence || 80)
+            + "%"
+        );
+
+        setElementValue(
+            "businessHours",
+            settings.businessHours ||
+            "Business Hours Only"
+        );
+
+        setElementValue(
+            "endDate",
+            settings.endDate || ""
+        );
+
+        setElementValue(
+            "highConfidenceAction",
+            settings.highConfidenceAction ||
+            "Save Draft"
+        );
+
+        setElementValue(
+            "lowConfidenceAction",
+            settings.lowConfidenceAction ||
+            "Notify User"
+        );
+
+        if (
+            settings.knowledgeSources
+        ) {
+
+            setElementChecked(
+                "mailHistory",
+                settings
+                .knowledgeSources
+                .mailHistory
+            );
+
+            setElementChecked(
+                "sharepoint",
+                settings
+                .knowledgeSources
+                .sharepoint
+            );
+
+            setElementChecked(
+                "faqDb",
+                settings
+                .knowledgeSources
+                .faqDb
+            );
+        }
+
+        toggleAutoReplyPanel(
+            settings.autoReplyEnabled
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Load Settings Error:",
+            error
         );
     }
 }
@@ -273,9 +330,79 @@ function showStatus(message) {
             "statusBox"
         );
 
-    if (statusBox) {
+    if (!statusBox) return;
 
-        statusBox.innerText =
-            message;
+    statusBox.innerText =
+        message;
+}
+
+function getElementValue(
+    id,
+    defaultValue
+) {
+
+    const element =
+        document.getElementById(id);
+
+    if (!element) {
+
+        return defaultValue;
     }
+
+    return element.value;
+}
+
+function getElementChecked(
+    id,
+    defaultValue
+) {
+
+    const element =
+        document.getElementById(id);
+
+    if (!element) {
+
+        return defaultValue;
+    }
+
+    return element.checked;
+}
+
+function setElementValue(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(id);
+
+    if (!element) return;
+
+    element.value = value;
+}
+
+function setElementChecked(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(id);
+
+    if (!element) return;
+
+    element.checked = value;
+}
+
+function setElementText(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(id);
+
+    if (!element) return;
+
+    element.innerText = value;
 }
