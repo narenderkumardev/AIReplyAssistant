@@ -4,26 +4,39 @@
     xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
-    xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.1"
+    xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides"
     xsi:type="MailApp">
 
-    <Id>a8d94464-d472-48d7-83d3-602260fece6d</Id>
+    <Id>
+        a8d94464-d472-48d7-83d3-602260fece6d
+    </Id>
 
-    <Version>1.0.0.1</Version>
+    <Version>
+        1.0.0.1
+    </Version>
 
-    <ProviderName>WebSvc</ProviderName>
+    <ProviderName>
+        WebSvc
+    </ProviderName>
 
-    <DefaultLocale>en-US</DefaultLocale>
+    <DefaultLocale>
+        en-US
+    </DefaultLocale>
 
-    <DisplayName DefaultValue="AIReplyAssistant"/>
+    <DisplayName
+        DefaultValue="AIReplyAssistant"/>
 
-    <Description DefaultValue="AI-powered Outlook assistant."/>
+    <Description
+        DefaultValue="AI-powered Outlook assistant."/>
 
-    <IconUrl DefaultValue="https://ai-reply-assistant-tau.vercel.app/assets/icon-64.png"/>
+    <IconUrl
+        DefaultValue="https://ai-reply-assistant-tau.vercel.app/assets/icon-64.png"/>
 
-    <HighResolutionIconUrl DefaultValue="https://ai-reply-assistant-tau.vercel.app/assets/icon-128.png"/>
+    <HighResolutionIconUrl
+        DefaultValue="https://ai-reply-assistant-tau.vercel.app/assets/icon-128.png"/>
 
-    <SupportUrl DefaultValue="https://websvc.in"/>
+    <SupportUrl
+        DefaultValue="https://websvc.in"/>
 
     <AppDomains>
 
@@ -41,9 +54,11 @@
 
     <Requirements>
 
-        <Sets DefaultMinVersion="1.5">
+        <Sets>
 
-            <Set Name="Mailbox"/>
+            <Set
+                Name="Mailbox"
+                MinVersion="1.5"/>
 
         </Sets>
 
@@ -72,7 +87,9 @@
         ReadWriteItem
     </Permissions>
 
-    <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule
+        xsi:type="RuleCollection"
+        Mode="Or">
 
         <Rule
             xsi:type="ItemIs"
@@ -86,8 +103,8 @@
     </DisableEntityHighlighting>
 
     <VersionOverrides
-        xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1"
-        xsi:type="VersionOverridesV1_1">
+        xmlns="http://schemas.microsoft.com/office/mailappversionoverrides"
+        xsi:type="VersionOverridesV1_0">
 
         <Requirements>
 
@@ -105,7 +122,8 @@
 
                 <DesktopFormFactor>
 
-                    <FunctionFile resid="Commands.Url"/>
+                    <FunctionFile
+                        resid="Commands.Url"/>
 
                     <ExtensionPoint
                         xsi:type="MessageReadCommandSurface">
@@ -114,9 +132,10 @@
 
                             <Group id="AIReplyGroup">
 
-                                <Label resid="GroupLabel"/>
+                                <Label
+                                    resid="GroupLabel"/>
 
-                                <!-- AI Reply -->
+                                <!-- AI Reply Button -->
 
                                 <Control
                                     xsi:type="Button"
@@ -162,7 +181,7 @@
 
                                 </Control>
 
-                                <!-- Auto Pilot -->
+                                <!-- Auto Pilot Button -->
 
                                 <Control
                                     xsi:type="Button"
