@@ -3,7 +3,7 @@
 const supabaseClient =
     window.supabase.createClient(
 
-        window.SUPABASE_URL,
+        "https://vpszsnlevsrphplciitx.supabase.co",
 
         window.SUPABASE_ANON_KEY
     );
