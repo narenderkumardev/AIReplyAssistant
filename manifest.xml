@@ -206,7 +206,7 @@
                     DefaultValue="https://ai-reply-assistant-tau.vercel.app/commands.html"/>
 
                 <bt:Url id="Taskpane.Url"
-                    DefaultValue="https://ai-reply-assistant-tau.vercel.app/taskpane.html"/>
+                    DefaultValue="https://ai-reply-assistant-tau.vercel.app/src/taskpane/taskpane.html"/>
 
             </bt:Urls>
 
