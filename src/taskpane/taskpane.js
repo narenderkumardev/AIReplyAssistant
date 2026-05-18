@@ -1,11 +1,12 @@
-
+const supabaseKey =
+  import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 const supabaseClient =
     window.supabase.createClient(
 
         "https://vpszsnlevsrphplciitx.supabase.co",
 
-        window.SUPABASE_ANON_KEY
+        supabaseKey
     );
 
 Office.onReady(() => {
