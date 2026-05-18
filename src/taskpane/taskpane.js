@@ -3,9 +3,9 @@
 const supabaseClient =
     window.supabase.createClient(
 
-        process.env.SUPABASE_URL,
+        "https://vpszsnlevsrphplciitx.supabase.co",
 
-        process.env.SUPABASE_ANON_KEY
+        "sb_secret_EV5PCEMQRukI36OwXu2KJA_9i52agn5"
     );
 
 Office.onReady(() => {
