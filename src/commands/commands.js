@@ -1,6 +1,24 @@
 /* global Office */
 
+let supabaseClient = null;
+
 Office.onReady(() => {
+
+    // WAIT UNTIL SUPABASE EXISTS
+
+    if (
+        window.supabase &&
+        window.supabase.createClient
+    ) {
+
+        supabaseClient =
+            window.supabase.createClient(
+
+                "https://vpszsnlevsrphplciitx.supabase.co",
+
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwc3pzbmxldnNycGhwbGNpaXR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDE5MTksImV4cCI6MjA5NDQxNzkxOX0.zHm_4_css3VEIDqWGAi6oUrsDI9PdE-FkY5mvKBAZfU"
+            );
+    }
 
     Office.actions.associate(
         "generateAIReply",
@@ -31,6 +49,7 @@ async function generateAIReply(event) {
         }
 
         item.body.getAsync(
+
             Office.CoercionType.Text,
 
             async function(result) {
@@ -76,10 +95,11 @@ async function generateAIReply(event) {
                     mailboxUser
                 );
 
-                // LOAD LOCAL SETTINGS
+                // LOCAL SETTINGS
 
                 let settings =
                     JSON.parse(
+
                         localStorage.getItem(
                             "ai_reply_settings"
                         ) || "{}"
@@ -89,8 +109,7 @@ async function generateAIReply(event) {
                     settings.tone ||
                     "Professional";
 
-                // TEMP CONFIDENCE
-                // Future Gemini/OpenAI
+                // TEMP AI RESPONSE
 
                 const confidence =
                     85;
@@ -125,68 +144,59 @@ Please review before sending.
                         "Reply form opened successfully."
                     );
 
-                    // RESPONSE TIME
-
-                    const responseTime =
-                        Math.floor(
-                            (
-                                Date.now()
-                                - startTime
-                            ) / 1000
-                        );
-
                     // SAVE INSIGHTS
-                    // BACKEND API PLACEHOLDER
 
-                    try {
+                    if (supabaseClient) {
 
-                        await fetch(
+                        const responseTime =
+                            Math.floor(
 
-                            "https://your-api-url/api/insights",
+                                (
+                                    Date.now()
+                                    - startTime
+                                ) / 1000
+                            );
 
-                            {
+                        const {
+                            error
+                        } =
+                            await supabaseClient
 
-                                method:
-                                    "POST",
+                            .from(
+                                "email_insights"
+                            )
 
-                                headers: {
+                            .insert({
 
-                                    "Content-Type":
-                                        "application/json"
-                                },
+                                mailbox_user:
+                                    mailboxUser,
 
-                                body:
-                                    JSON.stringify({
+                                source:
+                                    "AI_REPLY",
 
-                                        mailbox_user:
-                                            mailboxUser,
+                                action_type:
+                                    "DRAFT",
 
-                                        source:
-                                            "AI_REPLY",
+                                confidence:
+                                    confidence,
 
-                                        action_type:
-                                            "DRAFT",
+                                response_time_seconds:
+                                    responseTime
+                            });
 
-                                        confidence:
-                                            confidence,
+                        if (error) {
 
-                                        response_time_seconds:
-                                            responseTime
-                                    })
-                            }
-                        );
+                            console.error(
+                                "Insights Save Error:",
+                                error
+                            );
 
-                        console.log(
-                            "Insights API called successfully."
-                        );
+                        } else {
 
-                    }
-                    catch (apiError) {
-
-                        console.error(
-                            "Insights API Error:",
-                            apiError
-                        );
+                            console.log(
+                                "Insights saved successfully."
+                            );
+                        }
                     }
 
                 }
@@ -213,3 +223,4 @@ Please review before sending.
         event.completed();
     }
 }
+
