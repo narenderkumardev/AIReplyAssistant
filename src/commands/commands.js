@@ -1,13 +1,5 @@
 /* global Office */
 
-const supabaseClient =
-    window.supabase.createClient(
-
-        "https://vpszsnlevsrphplciitx.supabase.co",
-
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwc3pzbmxldnNycGhwbGNpaXR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDE5MTksImV4cCI6MjA5NDQxNzkxOX0.zHm_4_css3VEIDqWGAi6oUrsDI9PdE-FkY5mvKBAZfU"
-    );
-
 Office.onReady(() => {
 
     Office.actions.associate(
@@ -65,14 +57,26 @@ async function generateAIReply(event) {
                     emailBody
                 );
 
-                const mailboxUser =
-                    Office.context.mailbox
-                    .userProfile.emailAddress;
+                let mailboxUser =
+                    "unknown@local";
+
+                if (
+                    Office.context &&
+                    Office.context.mailbox &&
+                    Office.context.mailbox.userProfile
+                ) {
+
+                    mailboxUser =
+                        Office.context.mailbox
+                        .userProfile.emailAddress;
+                }
 
                 console.log(
                     "Mailbox User:",
                     mailboxUser
                 );
+
+                // LOAD LOCAL SETTINGS
 
                 let settings =
                     JSON.parse(
@@ -86,7 +90,7 @@ async function generateAIReply(event) {
                     "Professional";
 
                 // TEMP CONFIDENCE
-                // Later Gemini/OpenAI will provide this
+                // Future Gemini/OpenAI
 
                 const confidence =
                     85;
@@ -121,7 +125,7 @@ Please review before sending.
                         "Reply form opened successfully."
                     );
 
-                    // SAVE INSIGHTS
+                    // RESPONSE TIME
 
                     const responseTime =
                         Math.floor(
@@ -131,42 +135,57 @@ Please review before sending.
                             ) / 1000
                         );
 
-                    const {
-                        error
-                    } =
-                        await supabaseClient
-                        .from(
-                            "email_insights"
-                        )
-                        .insert({
+                    // SAVE INSIGHTS
+                    // BACKEND API PLACEHOLDER
 
-                            mailbox_user:
-                                mailboxUser,
+                    try {
 
-                            source:
-                                "AI_REPLY",
+                        await fetch(
 
-                            action_type:
-                                "DRAFT",
+                            "https://your-api-url/api/insights",
 
-                            confidence:
-                                confidence,
+                            {
 
-                            response_time_seconds:
-                                responseTime
-                        });
+                                method:
+                                    "POST",
 
-                    if (error) {
+                                headers: {
 
-                        console.error(
-                            "Insights Save Error:",
-                            error
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+
+                                        mailbox_user:
+                                            mailboxUser,
+
+                                        source:
+                                            "AI_REPLY",
+
+                                        action_type:
+                                            "DRAFT",
+
+                                        confidence:
+                                            confidence,
+
+                                        response_time_seconds:
+                                            responseTime
+                                    })
+                            }
                         );
 
-                    } else {
-
                         console.log(
-                            "Insights saved successfully."
+                            "Insights API called successfully."
+                        );
+
+                    }
+                    catch (apiError) {
+
+                        console.error(
+                            "Insights API Error:",
+                            apiError
                         );
                     }
 
