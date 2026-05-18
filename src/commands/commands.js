@@ -5,7 +5,7 @@ const supabaseClient =
 
         "https://vpszsnlevsrphplciitx.supabase.co",
 
-        "YOUR_ANON_PUBLIC_KEY"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwc3pzbmxldnNycGhwbGNpaXR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDE5MTksImV4cCI6MjA5NDQxNzkxOX0.zHm_4_css3VEIDqWGAi6oUrsDI9PdE-FkY5mvKBAZfU"
     );
 
 Office.onReady(() => {
